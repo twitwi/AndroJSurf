@@ -14,6 +14,10 @@ public class SURF implements ISURFfactory {
     private int octaves;
     private BufferedImage parent;
 
+    public static void unsetSingleton() {
+        // why is there a singleton?
+        instance = null;
+    }
     /**
      * Application of the Singleton Pattern. Returns an instance of the class
      * making sure that it is the only one. The method is STATIC so that any

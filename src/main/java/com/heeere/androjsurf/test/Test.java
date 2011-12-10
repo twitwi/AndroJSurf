@@ -24,19 +24,25 @@ import com.heeere.androjsurf.SURF;
  */
 public class Test {
 
-    static ArrayList interest_points;
-    static float threshold = 700;
-    static float balanceValue = (float) 0.9;
-    static int octaves = 5;
-
     public static void main(String argv[]) {
+        if (argv.length == 0) {
+            argv = new String[]{"img.png"};
+        }
+        for (String a : argv) {
+            new Test().main(a);
+        }
+    }
+    ArrayList interest_points;
+    float threshold = 800;
+    float balanceValue = (float) 0.8;
+    int octaves = 5;
+    BufferedImage img = null;
 
-
-        BufferedImage img = null;
+    public void main(String argv) {
 
 
         try {
-            File file = new File(argv[0]);
+            File file = new File(argv);
             img = ImageIO.read(file);
 //            BufferedImage parent = img;
             ISURFfactory mySURF = SURF.createInstance(img, balanceValue, threshold, octaves, img);
@@ -44,22 +50,17 @@ public class Test {
             interest_points = detector.generateInterestPoints();
             IDescriptor descriptor = mySURF.createDescriptor(interest_points);
             descriptor.generateAllDescriptors();
-
         } catch (Exception ex) {
-
-
             ex.printStackTrace();
         }
         drawInterestPoints();
         drawDescriptors();
-        File out = new File(argv[0] + "-out.png");
+        File out = new File(argv + "-out.png");
         try {
             ImageIO.write(img, "PNG", out);
         } catch (IOException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(1);
@@ -67,33 +68,23 @@ public class Test {
         frame.getContentPane().add(label, BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
-
-
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        SURF.unsetSingleton();
     }
 
-    static void drawInterestPoints() {
-
+    void drawInterestPoints() {
         System.out.println("Drawing Interest Points...");
-
         for (int i = 0; i < interest_points.size(); i++) {
-
             InterestPoint IP = (InterestPoint) interest_points.get(i);
             IP.drawPosition(5, new Color(200, 200, 200));
-
         }
-
     }
 
-    static void drawDescriptors() {
-
+    void drawDescriptors() {
         System.out.println("Drawing Descriptors...");
-
         for (int i = 0; i < interest_points.size(); i++) {
-
             InterestPoint IP = (InterestPoint) interest_points.get(i);
             IP.drawDescriptor(new Color(255, 0, 0));
-
         }
-
     }
 }
