@@ -1,8 +1,5 @@
 package com.heeere.androjsurf;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-
 /**
  * A standard implementation of the Integral_Image interface. Creates the
  * integral image representation of supplied input image. Calculates pixel sums
@@ -13,7 +10,6 @@ import java.awt.image.BufferedImage;
 public class IntegralImage implements IIntegralImage {
 
     private float[][] integralValues;
-    private BufferedImage img;
     private int width = 0;
     private int height = 0;
 
@@ -32,18 +28,14 @@ public class IntegralImage implements IIntegralImage {
      * pixel immediately above the pixel being processed.</li>
      * </ul>
      */
-    public IntegralImage(BufferedImage image) {
-        this.img = image;
+    public IntegralImage(GrayPixelRectangle img) {
         width = img.getWidth();
         height = img.getHeight();
         integralValues = new float[height][width];
         for (int i = 0; i < height - 1; i++) {
             float sumOfTheCurrentRow = 0;
             for (int j = 0; j < width - 1; j++) {
-                float[] cacheHsbValue = new float[3];
-                int what = image.getRGB(j, i);
-                Color.RGBtoHSB((what >> 16) & 0xff, (what >> 8) & 0xff, what & 0xff, cacheHsbValue);
-                sumOfTheCurrentRow += cacheHsbValue[2] * 255;
+                sumOfTheCurrentRow += img.getIntensity(j, i) * 255;
                 if (i > 0) {
                     integralValues[i][j] = integralValues[i - 1][j] + sumOfTheCurrentRow;
                 } else {

@@ -1,7 +1,7 @@
 package com.heeere.androjsurf;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Basic interface for a class that provides the right IDetector and IDescriptor
@@ -27,7 +27,7 @@ public interface ISURFfactory {
      * 
      * @return A IDescriptor object.
      */
-    public IDescriptor createDescriptor(ArrayList<InterestPoint> interest_points);
+    public IDescriptor createDescriptor(List<InterestPoint> interest_points);
 
     /**
      * Getter for the Integral Image.
@@ -43,7 +43,7 @@ public interface ISURFfactory {
      *            PImage that is converted into Integral Image before it's
      *            assigned to SURF.
      */
-    public void setIntegralImage(BufferedImage img);
+    public void setIntegralImage(GrayPixelRectangle img);
 
     /**
      * Getter for the Balance Value.

@@ -1,7 +1,5 @@
 package com.heeere.androjsurf;
 
-import java.awt.Image;
-
 import java.util.ArrayList;
 
 /**
@@ -23,7 +21,6 @@ public class FastHessian implements IDetector {
     private IGAUSSconvolution gaussConvolution;
     private ArrayList<ArrayList<float[][]>> hessianDeterminantsByOctaves;
     private ArrayList<InterestPoint> interestPoints;
-    private Image parent;
 
     /**
      * Constructor of FastHessian.
@@ -41,15 +38,13 @@ public class FastHessian implements IDetector {
      *            PApplet where you display your video output.
      */
     public FastHessian(IIntegralImage integralImage, int imgWidth,
-            int imgHeight, float balanceValue, float threshold, int octaves,
-            Image parent) {
+            int imgHeight, float balanceValue, float threshold, int octaves) {
         this.integralImage = integralImage;
         this.threshold = threshold;
         this.octaves = octaves;
         this.gaussConvolution = new GAUSSconvolution(integralImage);
         interestPoints = new ArrayList<InterestPoint>();
         hessianDeterminantsByOctaves = new ArrayList<ArrayList<float[][]>>(octaves);
-        this.parent = parent;
         this.imgWidth = imgWidth;
         this.imgHeight = imgHeight;
     }
@@ -139,7 +134,7 @@ public class FastHessian implements IDetector {
                             if (isLocalMaxima(i, t, j, k, 4)) {
                                 interestPoints.add(new InterestPoint(j, k,
                                         (float) (((((9 + (6 * (2 ^ i))) - 6
-                                        + (t * 6 * 2)) ^ i) * 1.2) / 9), parent));
+                                        + (t * 6 * 2)) ^ i) * 1.2) / 9)));
                             } else {
                             }
                         } else {

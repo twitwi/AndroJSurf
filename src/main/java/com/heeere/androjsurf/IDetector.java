@@ -1,6 +1,7 @@
 package com.heeere.androjsurf;
 
-import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Generic interface for a IDetector class.
@@ -15,5 +16,5 @@ public interface IDetector {
      * 
      * @return An ArrayList of Interest_Point
      */
-    public ArrayList<InterestPoint> generateInterestPoints();
+    public List<InterestPoint> generateInterestPoints();
 }

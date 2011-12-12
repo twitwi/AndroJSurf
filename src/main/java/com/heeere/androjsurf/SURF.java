@@ -1,7 +1,7 @@
 package com.heeere.androjsurf;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.List;
+
 
 public class SURF implements ISURFfactory {
 
@@ -12,7 +12,7 @@ public class SURF implements ISURFfactory {
     private float balanceValue;
     private float threshold;
     private int octaves;
-    private BufferedImage parent;
+    private GrayPixelRectangle parent;
 
     public static void unsetSingleton() {
         // why is there a singleton?
@@ -37,8 +37,7 @@ public class SURF implements ISURFfactory {
      *            PApplet where you display your video output.
      * @return The single instance of SURF.
      */
-    public static SURF createInstance(BufferedImage img, float balanceValue,
-            float threshold, int octaves, BufferedImage parent) {
+    public static SURF createInstance(GrayPixelRectangle img, float balanceValue, float threshold, int octaves, GrayPixelRectangle parent) {
 
         if (instance == null) {
 
@@ -74,8 +73,7 @@ public class SURF implements ISURFfactory {
      *            PApplet where you display your video output.
      * @return The single instance of SURF.
      */
-    public static SURF createInstance(BufferedImage img, float threshold, int octaves,
-            BufferedImage parent) {
+    public static SURF createInstance(GrayPixelRectangle img, float threshold, int octaves, GrayPixelRectangle parent) {
         if (instance == null) {
             instance = new SURF(img, threshold, octaves, parent);
         } else {
@@ -90,8 +88,7 @@ public class SURF implements ISURFfactory {
      * Constructor of SURF. The constructor is private to prevent any
      * possibility to create an instance without the Singleton method.
      */
-    private SURF(BufferedImage img, float balanceValue, float threshold, int steps,
-            BufferedImage parent) {
+    private SURF(GrayPixelRectangle img, float balanceValue, float threshold, int steps, GrayPixelRectangle parent) {
         this.integralImage = new IntegralImage(img);
         this.imgHeight = img.getHeight();
         this.imgWidth = img.getWidth();
@@ -106,7 +103,7 @@ public class SURF implements ISURFfactory {
      * is private to prevent any possibility to create an instance without the
      * Singleton method.
      */
-    private SURF(BufferedImage img, float threshold, int steps, BufferedImage parent) {
+    private SURF(GrayPixelRectangle img, float threshold, int steps, GrayPixelRectangle parent) {
         this.integralImage = new IntegralImage(img);
         this.imgHeight = img.getHeight();
         this.imgWidth = img.getWidth();
@@ -116,43 +113,52 @@ public class SURF implements ISURFfactory {
         this.parent = parent;
     }
 
+    @Override
     public IDetector createDetector() {
-        return new FastHessian(integralImage, imgWidth, imgHeight,
-                balanceValue, threshold, octaves, parent);
+        return new FastHessian(integralImage, imgWidth, imgHeight, balanceValue, threshold, octaves);
     }
 
-    public IDescriptor createDescriptor(ArrayList<InterestPoint> interest_points) {
+    @Override
+    public IDescriptor createDescriptor(List<InterestPoint> interest_points) {
         return new SURFdescriptor(interest_points, integralImage);
     }
 
+    @Override
     public IIntegralImage getIntegralImage() {
         return integralImage;
     }
 
-    public void setIntegralImage(BufferedImage img) {
+    @Override
+    public void setIntegralImage(GrayPixelRectangle img) {
         this.integralImage = new IntegralImage(img);
     }
 
+    @Override
     public float getBalanceValue() {
         return balanceValue;
     }
 
+    @Override
     public void setBalanceValue(float balanceValue) {
         this.balanceValue = balanceValue;
     }
 
+    @Override
     public float getThreshold() {
         return threshold;
     }
 
+    @Override
     public void setThreshold(float threshold) {
         this.threshold = threshold;
     }
 
+    @Override
     public int getOctaves() {
         return octaves;
     }
 
+    @Override
     public void setOctaves(int octaves) {
         this.octaves = octaves;
     }

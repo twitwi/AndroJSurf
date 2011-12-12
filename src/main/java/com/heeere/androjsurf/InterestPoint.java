@@ -1,9 +1,5 @@
 package com.heeere.androjsurf;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-
 public class InterestPoint {
 
     private float x;
@@ -13,9 +9,8 @@ public class InterestPoint {
     private int yOrientation;
     private double orientationRadius;
     private float[] descriptorOfTheInterestPoint;
-    private Image parent;
 
-    public InterestPoint(float x, float y, float _scale, int xOrientation, int yOrientation, float[] descriptorOfTheInterestPoint, Image parent) {
+    public InterestPoint(float x, float y, float _scale, int xOrientation, int yOrientation, float[] descriptorOfTheInterestPoint) {
         this.x = x;
         this.y = y;
         this.scale = _scale;
@@ -23,27 +18,24 @@ public class InterestPoint {
         this.yOrientation = yOrientation;
         this.orientationRadius = Math.atan2(yOrientation - y, xOrientation - x);
         this.descriptorOfTheInterestPoint = descriptorOfTheInterestPoint;
-        this.parent = parent;
     }
 
-    public InterestPoint(float x, float y, float scale, int xOrientation, int yOrientation, Image parent) {
+    public InterestPoint(float x, float y, float scale, int xOrientation, int yOrientation) {
         this.x = x;
         this.y = y;
         this.scale = scale;
         this.xOrientation = xOrientation;
         this.yOrientation = yOrientation;
         this.orientationRadius = Math.atan2(yOrientation - y, xOrientation - x);
-        this.parent = parent;
     }
 
-    public InterestPoint(float x, float y, float scale, Image parent) {
+    public InterestPoint(float x, float y, float scale) {
         this.x = x;
         this.y = y;
         this.scale = scale;
         this.xOrientation = 0;
         this.yOrientation = 0;
         this.orientationRadius = 0;
-        this.parent = parent;
     }
 
     public float getX() {
@@ -64,18 +56,6 @@ public class InterestPoint {
 
     public void setOrientationRadius(double orientationRadius) {
         this.orientationRadius = orientationRadius;
-    }
-
-    public Image getParent() {
-        return parent;
-    }
-
-    public void setParent(Image parent) {
-        this.parent = parent;
-    }
-
-    public int getxOrientation() {
-        return xOrientation;
     }
 
     public void setxOrientation(int xOrientation) {
@@ -124,19 +104,4 @@ public class InterestPoint {
         return information;
     }
 
-    public void drawPosition(int sizeInPx, Color c) {
-
-        Graphics2D g2d = (Graphics2D) parent.getGraphics();
-        g2d.setColor(c);
-        g2d.fillRect((int) x, (int) y, sizeInPx, sizeInPx);
-
-    }
-
-    public void drawDescriptor(Color strokeColor) {
-
-        Graphics2D g2d = (Graphics2D) parent.getGraphics();
-        g2d.setColor(strokeColor);
-        g2d.drawRect((int) x - (int) scale * 10, (int) y - (int) scale * 10, (int) scale * 20, (int) scale * 20);
-
-    }
 }

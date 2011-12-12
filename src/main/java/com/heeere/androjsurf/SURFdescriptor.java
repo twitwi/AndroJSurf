@@ -1,6 +1,6 @@
 package com.heeere.androjsurf;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A standard implementation of the IDescriptor interface. The constructor has an
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class SURFdescriptor implements IDescriptor {
 
-    private ArrayList<InterestPoint> interest_points;
+    private List<InterestPoint> interest_points;
     @SuppressWarnings("unused")
     private IIntegralImage integralImage;
     private IHAARconvolution haarConvolution;
@@ -30,13 +30,14 @@ public class SURFdescriptor implements IDescriptor {
      * @param integralImage
      *            Integral_Image of a initial PImage you want to SURF.
      */
-    public SURFdescriptor(ArrayList<InterestPoint> interest_points,
+    public SURFdescriptor(List<InterestPoint> interest_points,
             IIntegralImage integralImage) {
         this.interest_points = interest_points;
         this.integralImage = integralImage;
         this.haarConvolution = new HAARConvolution(integralImage);
     }
 
+    @Override
     public void generateAllDescriptors() {
 
         float[] ValueDescriptor = new float[64];
