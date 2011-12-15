@@ -1,7 +1,7 @@
 package com.heeere.androjsurf.test;
 
 import com.heeere.androjsurf.GrayPixelRectangle;
-import com.heeere.androjsurf.AndroJSurfJava;
+import com.heeere.androjsurf.SurfJava;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -47,7 +47,7 @@ public class Test {
             File file = new File(argv);
             img = ImageIO.read(file);
 //            BufferedImage parent = img;
-            GrayPixelRectangle iimg = AndroJSurfJava.from(img);
+            GrayPixelRectangle iimg = SurfJava.image(img);
             ISURFfactory mySURF = SURF.createInstance(iimg, balanceValue, threshold, octaves, iimg);
             IDetector detector = mySURF.createDetector();
             interest_points = detector.generateInterestPoints();
@@ -79,7 +79,7 @@ public class Test {
         System.out.println("Drawing Interest Points...");
         for (int i = 0; i < interest_points.size(); i++) {
             InterestPoint ip = (InterestPoint) interest_points.get(i);
-            AndroJSurfJava.drawPosition(img, ip, 5, new Color(200, 200, 200));
+            SurfJava.drawPosition(img, ip, 5, new Color(200, 200, 200));
         }
     }
 
@@ -87,7 +87,7 @@ public class Test {
         System.out.println("Drawing Descriptors...");
         for (int i = 0; i < interest_points.size(); i++) {
             InterestPoint ip = (InterestPoint) interest_points.get(i);
-            AndroJSurfJava.drawDescriptor(img, ip, new Color(0, 255, 0));
+            SurfJava.drawDescriptor(img, ip, new Color(0, 255, 0));
         }
     }
 }

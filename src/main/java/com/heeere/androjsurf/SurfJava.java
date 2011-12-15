@@ -12,9 +12,9 @@ import java.awt.image.BufferedImage;
  *
  * @author twilight
  */
-public class AndroJSurfJava {
+public class SurfJava {
 
-    public static GrayPixelRectangle from(final BufferedImage img) {
+    public static GrayPixelRectangle image(final BufferedImage img) {
         return new GrayPixelRectangle() {
 
             @Override
@@ -29,10 +29,10 @@ public class AndroJSurfJava {
 
             @Override
             public float getIntensity(int x, int y) {
-                float[] cacheHsbValue = new float[3];
                 int what = img.getRGB(x, y);
-                Color.RGBtoHSB((what >> 16) & 0xff, (what >> 8) & 0xff, what & 0xff, cacheHsbValue);
-                return cacheHsbValue[2];
+                float[] hsb = new float[3];
+                Color.RGBtoHSB((what >> 16) & 0xff, (what >> 8) & 0xff, what & 0xff, hsb);
+                return hsb[2];
             }
         };
     }
