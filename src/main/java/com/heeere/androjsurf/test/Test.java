@@ -3,6 +3,7 @@ package com.heeere.androjsurf.test;
 import com.heeere.androjsurf.GrayPixelRectangle;
 import com.heeere.androjsurf.SurfJava;
 import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,17 +28,18 @@ public class Test {
 
     public static void main(String argv[]) {
         if (argv.length == 0) {
-            argv = new String[]{"img.png", "img2.png"};
+            argv = new String[]{"img.png", "imgsmall.png", "img2.png", "test.png"};
         }
         for (String a : argv) {
             new Test().main(a);
         }
     }
-    List<InterestPoint> interest_points;
-    float threshold = 800;
-    float balanceValue = (float) 0.8;
+    List<InterestPoint> interestPoints;
+    float threshold = 400;
+    float balanceValue = (float) .9f;
     int octaves = 5;
     BufferedImage img = null;
+    boolean alsoDescriptors = false;
 
     public void main(String argv) {
 
@@ -48,14 +50,19 @@ public class Test {
             GrayPixelRectangle iimg = SurfJava.image(img);
             ISURFfactory mySURF = SURF.createInstance(iimg, balanceValue, threshold, octaves, iimg);
             IDetector detector = mySURF.createDetector();
-            interest_points = detector.generateInterestPoints();
-            IDescriptor descriptor = mySURF.createDescriptor(interest_points);
-            descriptor.generateAllDescriptors();
+            interestPoints = detector.generateInterestPoints();
+            System.err.println("Detected " + interestPoints.size() + " interest points");
+            if (alsoDescriptors) {
+                IDescriptor descriptor = mySURF.createDescriptor(interestPoints);
+                descriptor.generateAllDescriptors();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         drawInterestPoints();
-        drawDescriptors();
+        if (alsoDescriptors) {
+            drawDescriptors();
+        }
         File out = new File(argv + "-out.png");
         try {
             ImageIO.write(img, "PNG", out);
@@ -75,16 +82,20 @@ public class Test {
 
     void drawInterestPoints() {
         System.out.println("Drawing Interest Points...");
-        for (int i = 0; i < interest_points.size(); i++) {
-            InterestPoint ip = (InterestPoint) interest_points.get(i);
-            SurfJava.drawPosition(img, ip, 5, new Color(200, 200, 200));
+        Graphics g = img.getGraphics();
+        g.setColor(Color.red);
+        for (int i = 0; i < interestPoints.size(); i++) {
+            InterestPoint ip = (InterestPoint) interestPoints.get(i);
+            int x = (int) ip.getX();
+            int y = (int) ip.getY();
+            g.drawRect(x - 1, y - 1, 3, 3);
         }
     }
 
     void drawDescriptors() {
         System.out.println("Drawing Descriptors...");
-        for (int i = 0; i < interest_points.size(); i++) {
-            InterestPoint ip = (InterestPoint) interest_points.get(i);
+        for (int i = 0; i < interestPoints.size(); i++) {
+            InterestPoint ip = (InterestPoint) interestPoints.get(i);
             SurfJava.drawDescriptor(img, ip, new Color(0, 255, 0));
         }
     }

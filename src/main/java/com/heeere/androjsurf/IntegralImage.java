@@ -32,9 +32,9 @@ public class IntegralImage implements IIntegralImage {
         width = img.getWidth();
         height = img.getHeight();
         integralValues = new float[height][width];
-        for (int i = 0; i < height - 1; i++) {
+        for (int i = 0; i < height; i++) {
             float sumOfTheCurrentRow = 0;
-            for (int j = 0; j < width - 1; j++) {
+            for (int j = 0; j < width; j++) {
                 sumOfTheCurrentRow += img.getIntensity(j, i) * 255;
                 if (i > 0) {
                     integralValues[i][j] = integralValues[i - 1][j] + sumOfTheCurrentRow;
@@ -45,6 +45,7 @@ public class IntegralImage implements IIntegralImage {
         }
     }
 
+    @Override
     public float getIntegralValue(int x, int y) {
 // POSSIBLE EXCEPTION retrun ((y < 0 || y >= img.getHeight()) || (x < 0 || x >= img.getWidth()))  if problems are found
         if ((y >= height) || (x >= width)) {

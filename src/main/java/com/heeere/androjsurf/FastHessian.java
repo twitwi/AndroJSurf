@@ -12,7 +12,6 @@ import java.util.ArrayList;
  */
 public class FastHessian implements IDetector {
 
-    private IIntegralImage integralImage;
     private int imgHeight;
     private int imgWidth;
     private float balanceValue;
@@ -39,7 +38,6 @@ public class FastHessian implements IDetector {
      */
     public FastHessian(IIntegralImage integralImage, int imgWidth,
             int imgHeight, float balanceValue, float threshold, int octaves) {
-        this.integralImage = integralImage;
         this.threshold = threshold;
         this.octaves = octaves;
         this.gaussConvolution = new GAUSSconvolution(integralImage);
@@ -54,6 +52,7 @@ public class FastHessian implements IDetector {
      * scale, FastHessian thresholds the results and then apply a
      * non-maximal suppression in order to detect the Interest Points.
      */
+    @Override
     public ArrayList<InterestPoint> generateInterestPoints() {
         buildDet();
         threshold();
