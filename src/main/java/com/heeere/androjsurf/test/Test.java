@@ -22,13 +22,12 @@ import java.util.List;
 
 /**
  *
- * @author mite
  */
 public class Test {
 
     public static void main(String argv[]) {
         if (argv.length == 0) {
-            argv = new String[]{"img.png"};
+            argv = new String[]{"img.png", "img2.png"};
         }
         for (String a : argv) {
             new Test().main(a);
@@ -46,7 +45,6 @@ public class Test {
         try {
             File file = new File(argv);
             img = ImageIO.read(file);
-//            BufferedImage parent = img;
             GrayPixelRectangle iimg = SurfJava.image(img);
             ISURFfactory mySURF = SURF.createInstance(iimg, balanceValue, threshold, octaves, iimg);
             IDetector detector = mySURF.createDetector();
