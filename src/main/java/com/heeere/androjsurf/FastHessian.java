@@ -73,9 +73,12 @@ public class FastHessian implements IDetector {
             ArrayList<float[][]> hessianDeterminantsOfAScale = new ArrayList<float[][]>();
             filterIncrease = 2 * filterIncrease;
 
-            for (int filtersize = firstFiltersizeOfTheOctave;
-                    filtersize < (firstFiltersizeOfTheOctave
-                    + (3 * filterIncrease) + 1); filtersize += filterIncrease) {
+//            for (int filtersize = firstFiltersizeOfTheOctave;
+//                    filtersize < (firstFiltersizeOfTheOctave
+//                    + (3 * filterIncrease) + 1); filtersize += filterIncrease) {
+            for (int filtersize = firstFiltersizeOfTheOctave, c = 0;
+                    filtersize < firstFiltersizeOfTheOctave + filterIncrease; c++, filtersize = firstFiltersizeOfTheOctave + c * filterIncrease / 4) {
+                System.err.println("Filter size: " + filtersize);
                 /*
                  * The overflow from the edges is not managed.
                  */

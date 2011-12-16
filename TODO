@@ -1,0 +1,6 @@
+
+The filter sizes used at every steps between octaves were strange. I changed them but need to check that.
+
+The octaves are separated so the non-maxima suppression might be limited on the exact octave level. Is there a reason?
+
+
