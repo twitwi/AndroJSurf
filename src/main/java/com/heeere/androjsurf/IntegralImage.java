@@ -48,15 +48,20 @@ public class IntegralImage implements IIntegralImage {
     @Override
     public float getIntegralValue(int x, int y) {
 // POSSIBLE EXCEPTION retrun ((y < 0 || y >= img.getHeight()) || (x < 0 || x >= img.getWidth()))  if problems are found
-        if ((y >= height) || (x >= width)) {
+//        if ((y >= height) || (x >= width)) {
+//            return 0;
+//        } else {
+        if (x == -1 || y == -1) {
             return 0;
-        } else {
-            return integralValues[y][x];
         }
+        return integralValues[y][x];
+//        }
     }
 
+    @Override
     public float getIntegralSquare(int xA, int yA, int xD, int yD) {
-
+        xA -= 1;
+        yA -= 1;
         float A = getIntegralValue(xA, yA);
         float D = getIntegralValue(xD, yD);
         float B = getIntegralValue(xD, yA);
