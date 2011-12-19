@@ -1,4 +1,4 @@
-package com.heeere.androjsurf;
+package com.heeere.androjsurfbasedonjavasurf;
 
 /**
  *

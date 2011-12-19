@@ -1,7 +1,7 @@
 package com.heeere.androjsurf.test;
 
-import com.heeere.androjsurf.GrayPixelRectangle;
-import com.heeere.androjsurf.SurfJava;
+import com.heeere.androjsurfbasedonjavasurf.GrayPixelRectangle;
+import com.heeere.androjsurfbasedonjavasurf.SurfJava;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -13,25 +13,25 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import com.heeere.androjsurf.IDescriptor;
-import com.heeere.androjsurf.IDetector;
-import com.heeere.androjsurf.ISURFfactory;
-import com.heeere.androjsurf.InterestPoint;
-import com.heeere.androjsurf.SURF;
+import com.heeere.androjsurfbasedonjavasurf.IDescriptor;
+import com.heeere.androjsurfbasedonjavasurf.IDetector;
+import com.heeere.androjsurfbasedonjavasurf.ISURFfactory;
+import com.heeere.androjsurfbasedonjavasurf.InterestPoint;
+import com.heeere.androjsurfbasedonjavasurf.SURF;
 import java.awt.Color;
 import java.util.List;
 
 /**
  *
  */
-public class Test {
+public class TestBasedOnPatchedJavaSurf {
 
     public static void main(String argv[]) {
         if (argv.length == 0) {
             argv = new String[]{"img.png", "imgsmall.png", "img2.png", "test.png"};
         }
         for (String a : argv) {
-            new Test().main(a);
+            new TestBasedOnPatchedJavaSurf().main(a);
         }
     }
     List<InterestPoint> interestPoints;
@@ -67,7 +67,7 @@ public class Test {
         try {
             ImageIO.write(img, "PNG", out);
         } catch (IOException ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestBasedOnPatchedJavaSurf.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JFrame frame = new JFrame();

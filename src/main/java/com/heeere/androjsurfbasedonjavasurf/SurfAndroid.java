@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.heeere.androjsurf;
+package com.heeere.androjsurfbasedonjavasurf;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

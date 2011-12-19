@@ -1,4 +1,4 @@
-package com.heeere.androjsurf;
+package com.heeere.androjsurfbasedonjavasurf;
 
 /**
  * Generic interface for a IDescriptor class. A IDescriptor extracts descriptor
