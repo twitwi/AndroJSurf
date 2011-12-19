@@ -296,10 +296,10 @@ public class FastHessian implements Serializable {
                 int y = (int) p.getY();
                 System.err.println(x + " " + y);
                 float s = p.getScale();
-                int hs = (int)s;
-                g.drawOval(x-hs, y-hs, 1+2*hs, 1+2*hs);
+                int hs = (int) s;
+                g.drawOval(x - hs, y - hs, 1 + 2 * hs, 1 + 2 * hs);
             }
-            JFrame f=new JFrame();
+            JFrame f = new JFrame();
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             f.getContentPane().add(new JLabel(new ImageIcon(img)));
             f.pack();
