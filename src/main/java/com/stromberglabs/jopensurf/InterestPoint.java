@@ -1,8 +1,8 @@
 package com.stromberglabs.jopensurf;
 
-import com.stromberglabs.cluster.Clusterable;
-
-public interface InterestPoint extends Clusterable {
+public interface InterestPoint {
 
     public double getDistance(InterestPoint point);
+    public float[] getLocation();
+
 }
