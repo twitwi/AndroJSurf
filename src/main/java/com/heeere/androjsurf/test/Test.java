@@ -35,8 +35,8 @@ public class Test {
         }
     }
     List<InterestPoint> interestPoints;
-    float threshold = 400;
-    float balanceValue = (float) .9f;
+    float threshold = 600;
+    float balanceValue = .81f;
     int octaves = 5;
     BufferedImage img = null;
     boolean alsoDescriptors = false;
