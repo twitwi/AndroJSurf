@@ -75,7 +75,7 @@ public class SurfCompare extends JPanel {
         mImageAWidth = (int) ((float) image.getWidth() * mImageAXScale);
         mImageAHeight = (int) ((float) image.getHeight() * mImageAYScale);
         mImageBWidth = (int) ((float) imageB.getWidth() * mImageBXScale);
-        mImageBHeight = (int) ((float) image.getHeight() * mImageBYScale);
+        mImageBHeight = (int) ((float) imageB.getHeight() * mImageBYScale);
 
         mAMatchingPoints = mSurfA.getMatchingPoints(mSurfB, mUpright);
         mBMatchingPoints = mSurfB.getMatchingPoints(mSurfA, mUpright);
@@ -161,6 +161,9 @@ public class SurfCompare extends JPanel {
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length == 0) {
+            args = new String[]{"img.png", "test.png"};
+        }
         BufferedImage imageA = ImageIO.read(new File(args[0]));
         BufferedImage imageB = ImageIO.read(new File(args[1]));
 //        System.out.println(imageA);
