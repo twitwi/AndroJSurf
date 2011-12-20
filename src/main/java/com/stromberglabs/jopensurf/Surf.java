@@ -44,7 +44,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-
+//import static org.apache.commons.math.util.FastMath.*;
+import static java.lang.Math.*;
 
 /**
  * A class to calculate the upright or free oriented interest points of an image lazily (will not calculate until you ask for them)
@@ -143,9 +144,9 @@ public class Surf implements Serializable {
         double gauss;
         float scale = input.getScale();
 
-        int s = (int) Math.round(scale);
-        int r = (int) Math.round(input.getY());
-        int c = (int) Math.round(input.getX());
+        int s = (int) round(scale);
+        int r = (int) round(input.getY());
+        int c = (int) round(input.getX());
 
         List<Double> xHaarResponses = new ArrayList<Double>();
         List<Double> yHaarResponses = new ArrayList<Double>();
@@ -156,7 +157,7 @@ public class Surf implements Serializable {
         for (int i = -6; i <= 6; ++i) {
             for (int j = -6; j <= 6; ++j) {
                 if (i * i + j * j < 36) {
-                    gauss = GaussianConstants.Gauss25[Math.abs(i)][Math.abs(j)];
+                    gauss = GaussianConstants.Gauss25[abs(i)][abs(j)];
                     //System.out.println("i = " + i + ", j = " + j + ", gauss = " + gauss);
                     double xHaarResponse = gauss * haarX(r + j * s, c + i * s, 4 * s);
                     double yHaarResponse = gauss * haarY(r + j * s, c + i * s, 4 * s);
@@ -176,8 +177,8 @@ public class Surf implements Serializable {
         float orientation = 0;
 
         // loop slides pi/3 window around feature point
-        for (ang1 = 0; ang1 < 2 * Math.PI; ang1 += 0.15f) {
-            ang2 = (float) (ang1 + Math.PI / 3.0f > 2 * Math.PI ? ang1 - 5.0f * Math.PI / 3.0f : ang1 + Math.PI / 3.0f);
+        for (ang1 = 0; ang1 < 2 * PI; ang1 += 0.15f) {
+            ang2 = (float) (ang1 + PI / 3.0f > 2 * Math.PI ? ang1 - 5.0f * PI / 3.0f : ang1 + PI / 3.0f);
             sumX = sumY = 0;
             for (int k = 0; k < angles.size(); k++) {
                 ang = angles.get(k).floatValue();
@@ -185,7 +186,7 @@ public class Surf implements Serializable {
                 if (ang1 < ang2 && ang1 < ang && ang < ang2) {
                     sumX += xHaarResponses.get(k).floatValue();
                     sumY += yHaarResponses.get(k).floatValue();
-                } else if (ang2 < ang1 && ((ang > 0 && ang < ang2) || (ang > ang1 && ang < 2 * Math.PI))) {
+                } else if (ang2 < ang1 && ((ang > 0 && ang < ang2) || (ang > ang1 && ang < 2 * PI))) {
                     sumX += xHaarResponses.get(k).floatValue();
                     sumY += yHaarResponses.get(k).floatValue();
                 }
@@ -215,13 +216,13 @@ public class Surf implements Serializable {
         float cx = -0.5f, cy = 0.0f; //Subregion centers for the 4x4 gaussian weighting
 
         scale = point.getScale();
-        x = Math.round(point.getX());
-        y = Math.round(point.getY());
+        x = round(point.getX());
+        y = round(point.getY());
         //System.out.println("x = " + point.getX() + ", y = " + point.getY());
         //System.out.println("x = " + x + ", y = " + y);
         if (!upright) {
-            co = Math.cos(point.getOrientation());
-            si = Math.sin(point.getOrientation());
+            co = cos(point.getOrientation());
+            si = sin(point.getOrientation());
         }
         //System.out.println("co = " + co + ", sin = " + si);
         i = -8;
@@ -244,20 +245,20 @@ public class Surf implements Serializable {
                 ix = i + 5;
                 jx = j + 5;
 
-                xs = Math.round(x + (-jx * scale * si + ix * scale * co));
-                ys = Math.round(y + (jx * scale * co + ix * scale * si));
+                xs = round(x + (-jx * scale * si + ix * scale * co));
+                ys = round(y + (jx * scale * co + ix * scale * si));
 
                 for (int k = i; k < i + 9; ++k) {
                     for (int l = j; l < j + 9; ++l) {
                         //Get coords of sample point on the rotated axis
-                        sample_x = (int) Math.round(x + (-1D * l * scale * si + k * scale * co));
-                        sample_y = (int) Math.round(y + (l * scale * co + k * scale * si));
+                        sample_x = (int) round(x + (-1D * l * scale * si + k * scale * co));
+                        sample_y = (int) round(y + (l * scale * co + k * scale * si));
 
                         //Get the gaussian weighted x and y responses
                         gauss_s1 = gaussian(xs - sample_x, ys - sample_y, 2.5F * scale);
 
-                        rx = haarX(sample_y, sample_x, (int) (2 * Math.round(scale)));
-                        ry = haarY(sample_y, sample_x, (int) (2 * Math.round(scale)));
+                        rx = haarX(sample_y, sample_x, (int) (2 * round(scale)));
+                        ry = haarY(sample_y, sample_x, (int) (2 * round(scale)));
 
                         //Get the gaussian weighted x and y responses on rotated axis
                         rrx = gauss_s1 * (-rx * si + ry * co);
@@ -266,8 +267,8 @@ public class Surf implements Serializable {
                         dx += rrx;
                         dy += rry;
 
-                        mdx += Math.abs(rrx);
-                        mdy += Math.abs(rry);
+                        mdx += abs(rrx);
+                        mdy += abs(rry);
                     }
                 }
 
@@ -290,7 +291,7 @@ public class Surf implements Serializable {
             i += 9;
         }
 
-        len = Math.sqrt(len);
+        len = sqrt(len);
 
         for (i = 0; i < 64; i++) {
             desc[i] /= len;
@@ -306,19 +307,19 @@ public class Surf implements Serializable {
 
     private double getAngle(double xHaarResponse, double yHaarResponse) {
         if (xHaarResponse >= 0 && yHaarResponse >= 0) {
-            return Math.atan(yHaarResponse / xHaarResponse);
+            return atan(yHaarResponse / xHaarResponse);
         }
 
         if (xHaarResponse < 0 && yHaarResponse >= 0) {
-            return Math.PI - Math.atan(-yHaarResponse / xHaarResponse);
+            return PI - atan(-yHaarResponse / xHaarResponse);
         }
 
         if (xHaarResponse < 0 && yHaarResponse < 0) {
-            return Math.PI + Math.atan(yHaarResponse / xHaarResponse);
+            return PI + atan(yHaarResponse / xHaarResponse);
         }
 
         if (xHaarResponse >= 0 && yHaarResponse < 0) {
-            return 2 * Math.PI - Math.atan(-yHaarResponse / xHaarResponse);
+            return 2 * PI - atan(-yHaarResponse / xHaarResponse);
         }
 
         return 0;
@@ -372,10 +373,10 @@ public class Surf implements Serializable {
     }
 
 //	private double gaussian(int x, int y, double sig){
-//		return (1.0f/(2.0f*Math.PI*sig*sig)) * Math.exp( -(x*x+y*y)/(2.0f*sig*sig));
+//		return (1.0f/(2.0f*PI*sig*sig)) * exp( -(x*x+y*y)/(2.0f*sig*sig));
 //	}
     private double gaussian(double x, double y, double sig) {
-        return (1.0f / (2.0f * Math.PI * sig * sig)) * Math.exp(-(x * x + y * y) / (2.0f * sig * sig));
+        return (1.0f / (2.0f * PI * sig * sig)) * exp(-(x * x + y * y) / (2.0f * sig * sig));
     }
 
 //	public static void main(String[] args){

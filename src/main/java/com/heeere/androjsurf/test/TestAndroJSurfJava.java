@@ -3,7 +3,6 @@ package com.heeere.androjsurf.test;
 import com.heeere.androjsurf.IntensityProvider;
 import com.heeere.androjsurf.SurfJava;
 import java.awt.BorderLayout;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,13 +22,27 @@ import java.util.List;
  */
 public class TestAndroJSurfJava {
 
-    public static void main(String argv[]) {
+    public static void main(String argv[]) throws IOException {
         if (argv.length == 0) {
             argv = new String[]{"img.png", "imgsmall.png", "img2.png", "test.png"};
         }
         for (String a : argv) {
             new TestAndroJSurfJava().main(a);
         }
+        for (int i = 0; i < 100; i++) {
+            new TestAndroJSurfJava().justTime(argv[0]);
+        }
+    }
+
+    public void justTime(String argv) throws IOException {
+        File file = new File(argv);
+        img = ImageIO.read(file);
+        IntensityProvider iimg = SurfJava.intensityProvider(img);
+        Surf mySURF = new Surf(iimg); //, balanceValue, threshold, octaves, iimg);
+        long t = System.currentTimeMillis();
+        interestPoints = mySURF.getFreeOrientedInterestPoints();
+        System.err.println("Detected " + interestPoints.size() + " interest points in " + (System.currentTimeMillis() - t) + " ms");
+
     }
     List<SURFInterestPoint> interestPoints;
     /*
@@ -41,15 +54,14 @@ public class TestAndroJSurfJava {
     boolean alsoDescriptors = true;
 
     public void main(String argv) {
-
-
         try {
             File file = new File(argv);
             img = ImageIO.read(file);
             IntensityProvider iimg = SurfJava.intensityProvider(img);
             Surf mySURF = new Surf(iimg); //, balanceValue, threshold, octaves, iimg);
+            long t = System.currentTimeMillis();
             interestPoints = mySURF.getFreeOrientedInterestPoints();
-            System.err.println("Detected " + interestPoints.size() + " interest points");
+            System.err.println("Detected " + interestPoints.size() + " interest points in " + (System.currentTimeMillis() - t) + " ms");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

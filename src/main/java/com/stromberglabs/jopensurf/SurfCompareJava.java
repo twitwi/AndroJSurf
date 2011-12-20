@@ -166,7 +166,7 @@ public class SurfCompareJava extends JPanel {
 
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
-            args = new String[]{"img.png", "tests_400shot0001.png"};
+            args = new String[]{"img.png", "tests_400shot0010.png"};
         }
         BufferedImage imageA = ImageIO.read(new File(args[0]));
         BufferedImage imageB = ImageIO.read(new File(args[1]));
