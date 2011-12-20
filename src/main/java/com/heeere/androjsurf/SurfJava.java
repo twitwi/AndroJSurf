@@ -7,6 +7,9 @@ package com.heeere.androjsurf;
 import com.stromberglabs.jopensurf.SURFInterestPoint;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -45,15 +48,22 @@ public class SurfJava {
         };
     }
 
-    public static void drawPosition(BufferedImage image, SURFInterestPoint ip, int sizeInPx, Color c) {
+    public static void drawPosition(BufferedImage image, SURFInterestPoint ip, float sizeInPx, Color c) {
         Graphics2D g2d = (Graphics2D) image.getGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(c);
-        g2d.fillRect((int) ip.getLocation()[0] - sizeInPx / 2, (int) ip.getLocation()[1] - sizeInPx / 2, sizeInPx, sizeInPx);
+        float x = ip.getX();
+        float y = ip.getY();
+        g2d.fill(new Rectangle2D.Float(x - sizeInPx / 2, y - sizeInPx / 2, sizeInPx, sizeInPx));
     }
 
     public static void drawDescriptor(BufferedImage image, SURFInterestPoint ip, Color strokeColor) {
         Graphics2D g2d = (Graphics2D) image.getGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(strokeColor);
-        g2d.drawRect((int) ip.getLocation()[0] - (int) ip.getScale() * 10, (int) ip.getLocation()[1] - (int) ip.getScale() * 10, (int) ip.getScale() * 20, (int) ip.getScale() * 20);
+        float x = ip.getX();
+        float y = ip.getY();
+        float s = ip.getScale();
+        g2d.draw(new Ellipse2D.Float(x - s / 2, y - s / 2, s, s));
     }
 }
