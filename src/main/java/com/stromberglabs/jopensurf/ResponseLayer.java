@@ -1,4 +1,7 @@
 /*
+ * 
+ * See also "LICENCE" file in this package.
+ * 
 This work was derived from Chris Evan's opensurf project and re-licensed as the
 3 clause BSD license with permission of the original author. Thank you Chris! 
 

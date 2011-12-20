@@ -1,4 +1,7 @@
 /*
+ * 
+ * See also "LICENCE" file in this package.
+ * 
 This work was derived from Chris Evan's opensurf project and re-licensed as the
 3 clause BSD license with permission of the original author. Thank you Chris! 
 
@@ -29,19 +32,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.stromberglabs.jopensurf;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.LUDecompositionImpl;
@@ -281,31 +276,4 @@ public class FastHessian implements Serializable {
         return new Array2DRowRealMatrix(hessian);
     }
 
-    public static void main(String[] args) {
-        try {
-            String in = "/home/twilight/projects/AndroJSurf/imgsmall.png";
-            IntegralImage integralImage = new IntegralImage(ImageIO.read(new File(in)));
-            //"C:\\workspace\\opensurf\\OpenSURF\\Images\\sf.jpg")));
-            FastHessian hessian = new FastHessian(integralImage, 5, 2, 0.0005F, 0.81F);
-            List<SURFInterestPoint> points = hessian.getIPoints();
-            BufferedImage img = ImageIO.read(new File(in));
-            Graphics g = img.createGraphics();
-            g.setColor(Color.red);
-            for (SURFInterestPoint p : points) {
-                int x = (int) p.getX();
-                int y = (int) p.getY();
-                System.err.println(x + " " + y);
-                float s = p.getScale();
-                int hs = (int) s;
-                g.drawOval(x - hs, y - hs, 1 + 2 * hs, 1 + 2 * hs);
-            }
-            JFrame f = new JFrame();
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            f.getContentPane().add(new JLabel(new ImageIcon(img)));
-            f.pack();
-            f.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

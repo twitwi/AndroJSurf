@@ -1,4 +1,7 @@
 /*
+ * 
+ * See also "LICENCE" file in this package.
+ * 
 This work was derived from Chris Evan's opensurf project and re-licensed as the
 3 clause BSD license with permission of the original author. Thank you Chris! 
 
@@ -29,20 +32,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.stromberglabs.jopensurf;
 
-import java.awt.color.ColorSpace;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorConvertOp;
-
 public class ImageTransformUtils {
 
+    /*
     public static BufferedImage convertToGrayscale(BufferedImage input) {
         BufferedImage output = new BufferedImage(input.getWidth(), input.getHeight(), input.getType());
         ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
         op.filter(input, output);
         return output;
-    }
+    }*/
 
     public static float BoxIntegral(IntegralImage img, int row, int col, int rows, int cols) {
         int height = img.getHeight();
@@ -66,6 +64,7 @@ public class ImageTransformUtils {
         return Math.max(0F, A - B - C + D);
     }
 
+    /*
     public static BufferedImage getTransformedImage(BufferedImage image, double scaleX, double scaleY, double shearX, double shearY) {
         AffineTransform transform = new AffineTransform();
         if (scaleX > 0 && scaleY > 0) {
@@ -79,13 +78,6 @@ public class ImageTransformUtils {
         BufferedImage dest = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
         op.filter(image, dest);
         return dest;
-    }
+    }*/
 
-    public static void main(String args[]) {
-        try {
-            //ImageTransformUtils.generateIntegralImage(ImageIO.read(new File("/data/work/OpenSURF/Images/img1.jpg")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

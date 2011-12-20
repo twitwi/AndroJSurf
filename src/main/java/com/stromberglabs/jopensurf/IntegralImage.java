@@ -1,4 +1,7 @@
 /*
+ * 
+ * See also "LICENCE" file in this package.
+ * 
 This work was derived from Chris Evan's opensurf project and re-licensed as the
 3 clause BSD license with permission of the original author. Thank you Chris! 
 
@@ -29,8 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.stromberglabs.jopensurf;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
+import com.heeere.androjsurf.IntensityProvider;
 import java.io.Serializable;
 
 /**
@@ -83,7 +85,7 @@ public class IntegralImage implements Serializable {
         return mIntImage[column][row];
     }
 
-    public IntegralImage(BufferedImage input) {
+    public IntegralImage(IntensityProvider input) {
         mIntImage = new float[input.getWidth()][input.getHeight()];
         mWidth = mIntImage.length;
         mHeight = mIntImage[0].length;
@@ -91,20 +93,12 @@ public class IntegralImage implements Serializable {
         int width = input.getWidth();
         int height = input.getHeight();
 
-        WritableRaster raster = input.getRaster();
         int[] pixel = new int[4];
         float sum;
         for (int y = 0; y < height; y++) {
             sum = 0F;
             for (int x = 0; x < width; x++) {
-                raster.getPixel(x, y, pixel);
-                /**
-                 * TODO: FIX LOSS IN PRECISION HERE, DON'T ROUND BEFORE THE DIVISION (OR AFTER, OR AT ALL)
-                 * This was done to match the C++ version, can be removed after confident that it's working
-                 * correctly.
-                 */
-                float intensity = Math.round((0.299D * pixel[0] + 0.587D * pixel[1] + 0.114D * pixel[2])) / 255F;
-                sum += intensity;
+                sum += input.getIntensity(x, y);
                 if (y == 0) {
                     mIntImage[x][y] = sum;
                 } else {

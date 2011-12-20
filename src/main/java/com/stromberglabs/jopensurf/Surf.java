@@ -1,4 +1,7 @@
 /*
+ * 
+ * See also "LICENCE" file in this package.
+ * 
 This work was derived from Chris Evan's opensurf project and re-licensed as the
 3 clause BSD license with permission of the original author. Thank you Chris! 
 
@@ -29,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.stromberglabs.jopensurf;
 
-import java.awt.image.BufferedImage;
+import com.heeere.androjsurf.IntensityProvider;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,7 +45,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
 
 /**
  * A class to calculate the upright or free oriented interest points of an image lazily (will not calculate until you ask for them)
@@ -57,7 +59,6 @@ public class Surf implements Serializable {
     private static final int HESSIAN_INIT_SAMPLE = 2;
     private static final float HESSIAN_THRESHOLD = 0.0004F;
     private static final float HESSIAN_BALANCE_VALUE = 0.81F;
-    private transient BufferedImage mOriginalImage;
     private FastHessian mHessian;
     private List<SURFInterestPoint> mFreeOrientedPoints;
     private List<SURFInterestPoint> mUprightPoints;
@@ -69,18 +70,17 @@ public class Surf implements Serializable {
     private float mBalanceValue = HESSIAN_BALANCE_VALUE;
     private IntegralImage mIntegralImage;
 
-    public Surf(BufferedImage image) {
+    public Surf(IntensityProvider image) {
         this(image, HESSIAN_BALANCE_VALUE, HESSIAN_THRESHOLD, HESSIAN_OCTAVES);
     }
 
-    public Surf(BufferedImage image, float balanceValue, float threshold, int octaves) {
-        mOriginalImage = image;
+    public Surf(IntensityProvider image, float balanceValue, float threshold, int octaves) {
         mNumOctaves = octaves;
         mBalanceValue = balanceValue;
         mThreshold = threshold;
 
         //Calculate the integral image
-        mIntegralImage = new IntegralImage(mOriginalImage);
+        mIntegralImage = new IntegralImage(image);
 
         //Calculate the fast hessian
         mHessian = new FastHessian(mIntegralImage, mNumOctaves, HESSIAN_INIT_SAMPLE, mThreshold, mBalanceValue);
@@ -472,9 +472,10 @@ public class Surf implements Serializable {
         out.defaultWriteObject();
     }
 
+    /*
     public static void main(String args[]) {
         try {
-            BufferedImage image = ImageIO.read(new File("H:\\workspace\\javaopensurf\\example\\lenna.png"));
+            BufferedImage image = ImageIO.read(new File("test.png"));
             Surf board = new Surf(image);
             saveToFile(board, "C:\\surf_test.bin");
             Surf boarder = readFromFile("C:\\surf_test.bin");
@@ -483,5 +484,5 @@ public class Surf implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

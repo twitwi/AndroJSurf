@@ -1,4 +1,7 @@
 /*
+ * 
+ * See also "LICENCE" file in this package.
+ * 
 This work was derived from Chris Evan's opensurf project and re-licensed as the
 3 clause BSD license with permission of the original author. Thank you Chris! 
 
@@ -32,7 +35,7 @@ package com.stromberglabs.jopensurf;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class SURFInterestPoint implements Serializable, Cloneable, InterestPoint {
+public class SURFInterestPoint implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
     private float mX, mY;
@@ -113,7 +116,7 @@ public class SURFInterestPoint implements Serializable, Cloneable, InterestPoint
         mClusterIndex = clusterIndex;
     }
 
-    public double getDistance(InterestPoint point) {
+    public double getDistance(SURFInterestPoint point) {
         double sum = 0;
         if (point.getLocation() == null || mDescriptor == null) {
             return Float.MAX_VALUE;

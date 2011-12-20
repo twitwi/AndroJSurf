@@ -1,4 +1,7 @@
 /*
+ * 
+ * See also "LICENCE" file in this package.
+ * 
 This work was derived from Chris Evan's opensurf project and re-licensed as the
 3 clause BSD license with permission of the original author. Thank you Chris! 
 
@@ -29,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.stromberglabs.jopensurf;
 
+import com.heeere.androjsurf.SurfJava;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -38,7 +42,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class SurfCompare extends JPanel {
+public class SurfCompareJava extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private static final int BASE_CIRCLE_DIAMETER = 8;
@@ -60,11 +64,11 @@ public class SurfCompare extends JPanel {
     private Map<SURFInterestPoint, SURFInterestPoint> mBMatchingPoints;
     private boolean mUpright = false;
 
-    public SurfCompare(BufferedImage image, BufferedImage imageB) {
+    public SurfCompareJava(BufferedImage image, BufferedImage imageB) {
         this.image = image;
         this.imageB = imageB;
-        mSurfA = new Surf(image);
-        mSurfB = new Surf(imageB);
+        mSurfA = new Surf(SurfJava.intensityProvider(image));
+        mSurfB = new Surf(SurfJava.intensityProvider(imageB));
 
         mImageAXScale = (float) Math.min(image.getWidth(), 800) / (float) image.getWidth();
         mImageAYScale = (float) Math.min(image.getHeight(), 800 * (float) image.getHeight() / (float) image.getWidth()) / (float) image.getHeight();
@@ -162,13 +166,13 @@ public class SurfCompare extends JPanel {
 
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
-            args = new String[]{"img.png", "test.png"};
+            args = new String[]{"img.png", "tests_400shot0001.png"};
         }
         BufferedImage imageA = ImageIO.read(new File(args[0]));
         BufferedImage imageB = ImageIO.read(new File(args[1]));
 //        System.out.println(imageA);
 //        System.out.println(imageB);
-        SurfCompare show = new SurfCompare(imageA, imageB);
+        SurfCompareJava show = new SurfCompareJava(imageA, imageB);
         show.display();
         //show.matchesInfo();
     }
