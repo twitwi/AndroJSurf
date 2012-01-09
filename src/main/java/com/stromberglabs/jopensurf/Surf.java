@@ -325,8 +325,41 @@ public class Surf implements Serializable {
         return 0;
     }
 
+    public static Map<SURFInterestPoint, SURFInterestPoint> getMatchingPoints(List<SURFInterestPoint> set1, List<SURFInterestPoint> set2, double smallestOverSecondSmallestThreshold) {
+        //System.out.println("Finding matching points..");
+        Map<SURFInterestPoint, SURFInterestPoint> matchingPoints = new HashMap<SURFInterestPoint, SURFInterestPoint>();
+        List<SURFInterestPoint> points = set1;
+
+        for (SURFInterestPoint a : points) {
+            double smallestDistance = Float.MAX_VALUE;
+            double nextSmallestDistance = Float.MAX_VALUE;
+            SURFInterestPoint possibleMatch = null;
+
+            for (SURFInterestPoint b : set2) {
+                double distance = a.getDistance(b);
+                //System.out.println("Distance = " + distance);
+                if (distance < smallestDistance) {
+                    nextSmallestDistance = smallestDistance;
+                    smallestDistance = distance;
+                    possibleMatch = b;
+                } else if (distance < nextSmallestDistance) {
+                    nextSmallestDistance = distance;
+                }
+            }
+
+            // If match has a d1:d2 ratio < 0.65 ipoints are a match
+            //if ( smallestDistance/nextSmallestDistance < 0.65d ){
+            if (smallestDistance / nextSmallestDistance < smallestOverSecondSmallestThreshold) {
+                //not storing change in position
+                matchingPoints.put(a, possibleMatch);
+            }
+        }
+        //System.out.println("Done finding matching points");
+        return matchingPoints;
+    }
+    
     public Map<SURFInterestPoint, SURFInterestPoint> getMatchingPoints(Surf descriptor, boolean upright) {
-        System.out.println("Finding matching points..");
+        //System.out.println("Finding matching points..");
         Map<SURFInterestPoint, SURFInterestPoint> matchingPoints = new HashMap<SURFInterestPoint, SURFInterestPoint>();
         List<SURFInterestPoint> points = upright ? getUprightInterestPoints() : getFreeOrientedInterestPoints();
 
@@ -354,7 +387,7 @@ public class Surf implements Serializable {
                 matchingPoints.put(a, possibleMatch);
             }
         }
-        System.out.println("Done finding matching points");
+        //System.out.println("Done finding matching points");
         return matchingPoints;
     }
 
